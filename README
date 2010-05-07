@@ -1,0 +1,30 @@
+fsactor = Finite State Machine + Actor
+by IL (http://twitter.com/iron9light)
+
+Here I use Akka's Actor(http://akkasource.org/)
+fsactor let you change the state - receive partial function - at runtime.
+
+After I finished this toy project,
+I found I draw the simple Akka Actor back to the scala Actor view :)
+
+Have fun!
+
+    val fsactor = new FSActor {
+      react {
+        def act: PartialFunction[Any, Unit] = {
+          case 1 =>
+            results.append(1)
+            react {
+              case 2 =>
+                results.append(2)
+                react {
+                  case 3 =>
+                    results.append(3)
+                    react(act)
+                }
+            }
+        }
+
+        act
+      }
+    }
